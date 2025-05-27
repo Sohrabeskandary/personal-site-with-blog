@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/style.css" />
+        <link rel="icon" href="/images/favicon.png" />
+
+
+    <title>صبا نوریانی، کاردرمانگر</title>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="header">
+        <h1>صبا نوریانی</h1>
+        <nav>
+          <a href="/">خانه</a>
+          <a href="/#about">درباره من</a>
+          <a href="/#schedule">برنامه حضور</a>
+          <a href="/#services">خدمات</a>
+          <a href="/blog">وبلاگ</a>
+          <a href="tel: +989123334455" class="book-nav">☎️رزرو نوبت</a>
+        </nav>
+      </div>
+    </header>
+    <section class="container">
+      <h2><%= post.title %></h2>
+      <div>
+        <img src="<%= post.image %>" alt="<%= post.banner %>" />
+        <p> <%- post.content.split('\n').map(line => {
+    if (line.startsWith('###')) {
+      return `<h3>${line.replace(/^###\s*/, '')}</h3>`;
+    } else {
+      return `<p>${line}</p>`;
+    }
+  }).join('') %></p>
+      </div>
+
+      <a href="/blog">← بازگشت به بلاگ</a>
+    </section>
+  </body>
+</html>
