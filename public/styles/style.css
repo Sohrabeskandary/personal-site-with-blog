@@ -280,25 +280,6 @@ tr:nth-child(even) {
   padding-top: 1vh;
 }
 
-.services > div {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
-.services > div > div {
-  direction: rtl;
-  background-color: var(--background-light);
-  padding: 10px;
-  width: 20vw;
-  border-radius: 20px;
-  text-align: justify;
-}
-
-.services > div > div > h4 {
-  font-size: 1.3rem;
-}
-
 footer {
   color: rgb(75 85 99);
   direction: rtl;
@@ -540,6 +521,41 @@ html {
   margin: 1vh 20vw 1vh 20vw;
 }
 
+.services-grid {
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr 1fr;
+  justify-items: center;
+  row-gap: 20px;
+}
+
+.services-grid > div {
+  width: 18vw;
+
+  direction: rtl;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  background-color: var(--background-light);
+  border-radius: 20px;
+  overflow: hidden;
+  border: 0;
+  align-self: center;
+}
+
+.services-grid > div > img {
+  width: 100%;
+  height: 16vw;
+  object-fit: cover;
+}
+
+.services-grid > div > h4 {
+  padding: 10px;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
 @media (max-width: 1400px) {
   .form > input {
     width: 80vw;
@@ -592,9 +608,7 @@ html {
   .services > div {
     gap: 10px;
   }
-  .services > div > div {
-    width: 25vw;
-  }
+
   .services > div > div > p {
     font-size: 1rem;
     text-align: justify;
