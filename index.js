@@ -30,12 +30,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  console.log("Session data:", req.session);
-  console.log("Is admin:", req.session?.isAdmin);
-  next();
-});
-
 app.set("view engine", "ejs");
 
 const storage = multer.diskStorage({
@@ -125,8 +119,8 @@ app.post(
   requireAdmin,
   upload.single("image"),
   (req, res) => {
-    console.log("Session at start of POST:", req.session);
-    console.log("Received:", req.body, req.file);
+    // console.log("Session at start of POST:", req.session);
+    // console.log("Received:", req.body, req.file);
 
     const { title, summary, content } = req.body;
     const image = req.file ? "/uploads/" + req.file.filename : "";
@@ -149,8 +143,8 @@ app.post(
 
       fs.writeFile(postsPath, JSON.stringify(posts, null, 2), (err) => {
         if (err) return res.status(500).send("خطا در ذخیره مطلب");
-        console.log("BODY:", req.body);
-        console.log("FILE:", req.file);
+        // console.log("BODY:", req.body);
+        // console.log("FILE:", req.file);
 
         res.redirect(process.env.DASHBOARD_URL);
       });

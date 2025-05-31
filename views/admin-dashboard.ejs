@@ -85,5 +85,21 @@
     </div>
 
     <footer>صبا نوریانی 1404. تمامی حقوق محفوظ است</footer>
+    <script
+      src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"
+      referrerpolicy="origin"
+    ></script>
+    <script>
+      tinymce.init({
+        selector: "#editor",
+        directionality: "rtl",
+        plugins: "lists link image code table",
+        toolbar:
+          "undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist | image | code",
+        height: 400,
+        content_style:
+          "body { font-family:Vazirmatn,Arial,sans-serif; font-size:16px }",
+      });
+    </script>
   </body>
 </html>
