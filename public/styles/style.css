@@ -299,6 +299,10 @@ footer {
   margin: 2vh 0;
 }
 
+.map-container > div > h2 {
+  padding: 2vh 0;
+}
+
 iframe {
   border: 0;
   border-radius: 20px;
