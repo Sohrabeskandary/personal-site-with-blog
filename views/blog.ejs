@@ -29,14 +29,13 @@
       <div class="blog-list">
         <% posts.forEach(post => { %>
 
-        <a href="/blog/<%= post.id %>" class="post-preview">
-          <!-- <img src="<%= post.banner %>" alt="<%= post.title %>" /> -->
+        <a
+          href="/blog/<%= post.id %>"
+          class="post-preview"
+          style="background-color: rgb(239, 246, 255)"
+        >
           <% if (post.image) { %>
-          <!-- <div class="blog-image">
-            <img src="<%= post.image %>" alt="Blog Image" />
-          </div> -->
           <img src="<%= post.image %>" alt="Blog Image" />
-
           <% } %>
           <div class="blog-text">
             <h3><%= post.title %></h3>
