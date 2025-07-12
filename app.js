@@ -7,6 +7,9 @@ import session from "express-session";
 import cookieParser from "cookie-parser";
 import connectSqlite3 from "connect-sqlite3";
 import "dotenv/config";
+import pool from "./db.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT;
@@ -14,6 +17,7 @@ const port = process.env.PORT;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+app.set("views", path.join(__dirname, "views"));
 const SQLiteStore = connectSqlite3(session);
 
 app.use(
@@ -29,6 +33,8 @@ app.use(cookieParser());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
 // app.set("view engine", "ejs");
 
@@ -44,6 +50,16 @@ const imageStorage = multer.diskStorage({
 });
 
 const upload = multer({ storage: imageStorage });
+
+app.get("/test-db", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error("DB Error:", error);
+    res.status(500).send("خطا در اتصال به دیتابیس");
+  }
+});
 
 app.get("/", (req, res) => {
   const postsPath = path.join(__dirname, "data", "posts.json");
