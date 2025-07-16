@@ -1,14 +1,15 @@
+// ✅ REWRITTEN VERSION OF YOUR app.js USING express-fileupload ONLY
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
-import multer from "multer";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import connectSqlite3 from "connect-sqlite3";
-import "dotenv/config";
-import pool from "./db.js";
 import dotenv from "dotenv";
+import fileUpload from "express-fileupload";
+import pool from "./db.js";
+
 dotenv.config();
 
 const app = express();
@@ -17,9 +18,9 @@ const port = process.env.PORT;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.set("views", path.join(__dirname, "views"));
 const SQLiteStore = connectSqlite3(session);
 
+// ✅ Middleware
 app.use(
   session({
     store: new SQLiteStore(),
@@ -30,82 +31,14 @@ app.use(
   })
 );
 app.use(cookieParser());
-
+app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
 app.use(express.json());
+app.use(express.static("public"));
 app.use(express.static(path.join(__dirname, "public")));
+app.set("views", path.join(__dirname, "views"));
 
-// app.set("view engine", "ejs");
-
-const imageStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "public/uploads");
-  },
-  filename: (req, file, cb) => {
-    // Save file with original name + timestamp
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname));
-  },
-});
-
-const upload = multer({ storage: imageStorage });
-
-app.get("/test-db", async (req, res) => {
-  try {
-    const result = await pool.query("SELECT NOW()");
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error("DB Error:", error);
-    res.status(500).send("خطا در اتصال به دیتابیس");
-  }
-});
-
-app.get("/", (req, res) => {
-  const postsPath = path.join(__dirname, "data", "posts.json");
-
-  fs.readFile(postsPath, "utf-8", (err, data) => {
-    if (err) {
-      console.error("Error reading posts:", err);
-      return res.status(500).send("خطا در بارگذاری مطالب");
-    }
-
-    const allPosts = JSON.parse(data);
-
-    const latestPosts = allPosts.slice(-3);
-    res.render("home.ejs", { latestPosts });
-  });
-});
-
-app.get("/blog", (req, res) => {
-  const postsPath = path.join(__dirname, "data", "posts.json");
-  const posts = JSON.parse(fs.readFileSync(postsPath, "utf-8"));
-  posts.reverse();
-  res.render("blog.ejs", { posts });
-});
-
-app.get("/blog/:id", (req, res) => {
-  const postsPath = path.join(__dirname, "data", "posts.json");
-  fs.readFile(postsPath, "utf-8", (err, data) => {
-    if (err) return res.status(500).send("خطا در بارگذاری مطالب");
-
-    const posts = JSON.parse(data);
-    const id = parseInt(req.params.id);
-    if (isNaN(id)) return res.status(400).send("شناسه نامعتبر است");
-    const post = posts.find((p) => p.id === id);
-
-    if (!post) return res.status(404).send("مطلب یافت نشد");
-
-    res.render("blog-post.ejs", { post });
-  });
-});
-
-app.get(process.env.ADMIN_LOGIN_URL, (req, res) => {
-  res.render("admin-login.ejs");
-});
-
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-
+// ✅ Middleware to check admin access
 function requireAdmin(req, res, next) {
   if (req.session.isAdmin) {
     next();
@@ -114,82 +47,98 @@ function requireAdmin(req, res, next) {
   }
 }
 
+// ✅ ROUTES
+app.get("/", async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT 
+         id,
+         title,
+         slug AS summary,
+         thumbnail_url AS image
+       FROM posts
+       ORDER BY id DESC;`
+    );
+    res.render("home.ejs", {
+      latestPosts: rows,
+      isAdmin: req.session.isAdmin || false,
+    });
+  } catch (err) {
+    console.error("DB error loading blog:", err);
+    res.status(500).send("خطا در بارگذاری مطالب");
+  }
+});
+
+app.get("/blog", async (req, res) => {
+  try {
+    const { rows } = await pool.query(
+      `SELECT 
+         id,
+         title,
+         slug AS summary,
+         thumbnail_url AS image
+       FROM posts
+       ORDER BY id DESC;`
+    );
+
+    res.render("blog.ejs", {
+      posts: rows,
+      isAdmin: req.session.isAdmin || false,
+    });
+  } catch (err) {
+    console.error("DB error loading blog:", err);
+    res.status(500).send("خطا در بارگذاری مطالب");
+  }
+});
+
+app.get("/blog/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) {
+    return res.status(400).send("شناسه نامعتبر است");
+  }
+
+  try {
+    const { rows } = await pool.query(
+      `SELECT 
+         id,
+         title,
+         slug AS summary,
+         content,
+         thumbnail_url AS image
+       FROM posts
+       WHERE id = $1
+       LIMIT 1;`,
+      [id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).send("مطلب یافت نشد");
+    }
+
+    const post = rows[0];
+    res.render("blog-post.ejs", {
+      post,
+      isAdmin: req.session.isAdmin || false,
+    });
+  } catch (err) {
+    console.error("DB error loading post:", err);
+    res.status(500).send("خطا در بارگذاری مطلب");
+  }
+});
+
+// ✅ Admin login/logout
+app.get(process.env.ADMIN_LOGIN_URL, (req, res) => {
+  res.render("admin-login.ejs");
+});
+
 app.post(process.env.ADMIN_LOGIN_URL, (req, res) => {
   const { password } = req.body;
-  if (password === ADMIN_PASSWORD) {
+  if (password === process.env.ADMIN_PASSWORD) {
     req.session.isAdmin = true;
-    res.redirect(process.env.DASHBOARD_URL);
+    res.redirect("/blog");
   } else {
     res.send("رمز عبور اشتباه است.");
   }
-});
-
-app.get(process.env.DASHBOARD_URL, requireAdmin, (req, res) => {
-  const postsPath = path.join(__dirname, "data", "posts.json");
-  const posts = JSON.parse(fs.readFileSync(postsPath, "utf-8")).reverse();
-  res.render("admin-dashboard.ejs", { posts });
-});
-
-app.post(
-  process.env.DASHBOARD_URL,
-  requireAdmin,
-  upload.single("image"),
-  (req, res) => {
-    const { title, summary, content } = req.body;
-    const image = req.file ? "/uploads/" + req.file.filename : "";
-
-    const postsPath = path.join(__dirname, "data", "posts.json");
-
-    fs.readFile(postsPath, "utf-8", (err, data) => {
-      if (err) return res.status(500).send("خطا در بارگذاری فایل");
-
-      const posts = JSON.parse(data);
-      const newPost = {
-        id: posts.length + 1,
-        title,
-        image,
-        summary,
-        content,
-      };
-
-      posts.push(newPost);
-
-      fs.writeFile(postsPath, JSON.stringify(posts, null, 2), (err) => {
-        if (err) return res.status(500).send("خطا در ذخیره مطلب");
-        res.redirect(process.env.DASHBOARD_URL);
-      });
-    });
-  }
-);
-
-app.post("/delete-post/:id", requireAdmin, (req, res) => {
-  const postId = parseInt(req.params.id);
-  const postsPath = path.join(__dirname, "data", "posts.json");
-
-  fs.readFile(postsPath, "utf-8", (err, data) => {
-    if (err) return res.status(500).send("خطا در خواندن فایل");
-
-    let posts = JSON.parse(data);
-    const postToDelete = posts.find((p) => p.id === postId);
-
-    // Remove the post
-    posts = posts.filter((post) => post.id !== postId);
-
-    // Delete associated image file if it exists
-    if (postToDelete && postToDelete.image) {
-      const imagePath = path.join(__dirname, "public", postToDelete.image);
-      fs.unlink(imagePath, (err) => {
-        if (err) console.warn("Image not found or already deleted:", imagePath);
-      });
-    }
-
-    // Rewrite posts.json
-    fs.writeFile(postsPath, JSON.stringify(posts, null, 2), (err) => {
-      if (err) return res.status(500).send("خطا در ذخیره فایل");
-
-      res.redirect(process.env.DASHBOARD_URL);
-    });
-  });
 });
 
 app.get("/logout", (req, res) => {
@@ -198,11 +147,188 @@ app.get("/logout", (req, res) => {
   });
 });
 
+app.post("/delete-post/:id", requireAdmin, async (req, res) => {
+  const id = Number(req.params.id);
+  if (!Number.isInteger(id)) {
+    return res.status(400).send("شناسه نامعتبر است");
+  }
+
+  try {
+    // Grab thumbnail path while deleting
+    const { rows } = await pool.query(
+      "DELETE FROM posts WHERE id = $1 RETURNING thumbnail_url;",
+      [id]
+    );
+
+    if (rows.length === 0) {
+      return res.status(404).send("مطلب یافت نشد");
+    }
+
+    const thumb = rows[0].thumbnail_url;
+    if (thumb) {
+      // Normalize path: DB stores like '/uploads/xyz.jpg'
+      const rel = thumb.startsWith("/") ? thumb.slice(1) : thumb;
+      const imgPath = path.join(__dirname, "public", rel);
+      fs.unlink(imgPath, (err) => {
+        if (err && err.code !== "ENOENT") {
+          console.warn("Image deletion failed:", imgPath, err);
+        }
+      });
+    }
+
+    res.redirect("/blog"); // 303 optional: res.redirect(303, "/blog");
+  } catch (err) {
+    console.error("DB delete error:", err);
+    res.status(500).send("خطا در حذف مطلب");
+  }
+});
+
+app.get("/edit-post/:id", requireAdmin, async (req, res, next) => {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id)) {
+    console.warn("[edit-post] invalid id:", req.params.id);
+    return res.status(400).send("شناسه نامعتبر است");
+  }
+
+  try {
+    const result = await pool.query(
+      `SELECT 
+         id,
+         title,
+         slug AS summary,           -- we'll show/edit summary in form
+         content,
+         thumbnail_url AS image     -- expected by template
+       FROM posts
+       WHERE id = $1
+       LIMIT 1;`,
+      [id]
+    );
+
+    console.log("[edit-post] rows returned:", result.rowCount);
+
+    if (result.rowCount === 0) {
+      return res.status(404).send("مطلب یافت نشد");
+    }
+
+    const post = result.rows[0];
+    // Debug line: comment out after confirming
+    console.log("[edit-post] post:", post);
+
+    res.render("edit-post.ejs", {
+      post,
+      isAdmin: req.session.isAdmin || false,
+    });
+  } catch (err) {
+    console.error("[edit-post] DB error:", err);
+    return next(err); // goes to global error handler
+  }
+});
+
+app.post("/edit-post/:id", requireAdmin, async (req, res) => {
+  const id = Number(req.params.id);
+  const { title, summary, content } = req.body;
+
+  try {
+    const current = await pool.query(
+      "SELECT thumbnail_url FROM posts WHERE id = $1",
+      [id]
+    );
+    if (current.rows.length === 0) return res.status(404).send("یافت نشد");
+
+    let image = current.rows[0].thumbnail_url;
+
+    // ✅ If new image uploaded via express-fileupload
+    if (req.files && req.files.image) {
+      const file = req.files.image;
+
+      // Validate image type
+      if (!file.mimetype.startsWith("image/")) {
+        return res.status(400).send("فقط فایل تصویری مجاز است");
+      }
+
+      // Delete old image if exists
+      if (image) {
+        const oldPath = path.join(__dirname, "public", image);
+        fs.unlink(oldPath, (err) => {
+          if (err && err.code !== "ENOENT")
+            console.warn("Delete old image failed:", err);
+        });
+      }
+
+      // Save new image
+      const uniqueName = Date.now() + "-" + file.name;
+      const uploadPath = path.join(__dirname, "public/uploads", uniqueName);
+      await file.mv(uploadPath);
+      image = "/uploads/" + uniqueName;
+    }
+
+    await pool.query(
+      "UPDATE posts SET title=$1, slug=$2, content=$3, thumbnail_url=$4 WHERE id=$5",
+      [title, summary, content, image, id]
+    );
+
+    res.redirect("/blog");
+  } catch (err) {
+    console.error("Update error:", err);
+    res.status(500).send("خطا در بروزرسانی مطلب");
+  }
+});
+
+// ✅ New post using DB and express-fileupload
+app.get("/new-post", requireAdmin, (req, res) => {
+  res.render("new-post.ejs");
+});
+
+app.post("/new-post", requireAdmin, async (req, res) => {
+  try {
+    const { title, summary, content } = req.body;
+    const file = req.files?.image;
+    let image_url = "";
+
+    if (file) {
+      const filename = Date.now() + "-" + file.name;
+      const uploadPath = path.join(__dirname, "public/uploads", filename);
+      await file.mv(uploadPath);
+      image_url = "/uploads/" + filename;
+    }
+
+    await pool.query(
+      "INSERT INTO posts (title, slug, content, thumbnail_url) VALUES ($1, $2, $3, $4)",
+      [title, summary, content, image_url]
+    );
+    res.redirect("/new-post");
+  } catch (err) {
+    console.error("Post creation error:", err);
+    res.status(500).send("خطا در ایجاد پست.");
+  }
+});
+
+// ✅ TinyMCE image upload endpoint
+app.post("/upload-image", (req, res) => {
+  const file = req.files?.file;
+  if (!file) return res.status(400).json({ error: "No file uploaded." });
+  if (!file.mimetype.startsWith("image/")) {
+    return res.status(400).json({ error: "Only image files allowed." });
+  }
+  const filename = Date.now() + "-" + file.name;
+  const uploadPath = path.join(__dirname, "public/uploads", filename);
+
+  file.mv(uploadPath, (err) => {
+    if (err) {
+      console.error("❌ Image upload failed:", err);
+      return res.status(500).json({ error: "Upload failed." });
+    }
+    res.json({ location: "/uploads/" + filename });
+  });
+});
+
+// ✅ Global error handler
 app.use((err, req, res, next) => {
   console.error("❌ Uncaught error:", err);
   res.status(500).send("خطایی رخ داده است.");
 });
 
 app.listen(port, () => {
-  console.log(`server is running on port ${process.env.port}`);
+  console.log(`Server is running on port ${port}`);
 });

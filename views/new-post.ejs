@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="icon" href="/images/favicon.png" />
+
+    <title>صبا نوریانی، کاردرمانگر</title>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <div class="header">
+        <h1>صبا نوریانی</h1>
+        <nav>
+          <a href="/">خانه</a>
+          <a href="#about">درباره من</a>
+          <a href="#schedule">برنامه حضور</a>
+          <a href="#services">خدمات</a>
+          <a href="/blog">وبلاگ</a>
+          <a href="tel: +989123334455" class="book-nav">☎️ رزرو نوبت</a>
+        </nav>
+      </div>
+    </header>
+
+    <section
+      class="container"
+      style="
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 2vh;
+      "
+    >
+      <h1>افزودن پست جدید</h1>
+      <form
+        action="/new-post"
+        method="post"
+        class="form"
+        enctype="multipart/form-data"
+      >
+        <input type="text" name="title" placeholder="عنوان پست" required />
+        <label style="font-size: 1.2rem">آپلود عکس:</label>
+        <input type="file" name="image" accept="image/*" required />
+        <textarea
+          name="summary"
+          placeholder="خلاصه مطلب"
+          maxlength="200"
+          style="height: 200px"
+          required
+        ></textarea>
+        <textarea id="editor" name="content" placeholder="متن کامل"></textarea>
+        <button type="submit">ثبت مطلب</button>
+      </form>
+    </section>
+
+    <footer>
+      <div>
+        <h2>راه‌های ارتباطی</h2>
+        <div class="social">
+          <a href="#instagram"
+            ><img src="/images/instagram.svg" alt="instagram logo"
+          /></a>
+          <a href="#whatsapp"
+            ><img src="/images/whatsapp.svg" alt="whatsapp logo"
+          /></a>
+          <a href="#telegram"
+            ><img src="/images/telegram.svg" alt="telegram logo"
+          /></a>
+        </div>
+      </div>
+      <!-- <h2>آدرس کلینیک‌ها روی نقشه</h2> -->
+      <div class="map-container">
+        <div>
+          <h2>کلینیک ستارخان</h2>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3852.4175034683785!2d51.367969956762444!3d35.714311826947316!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e00c9fba86b59%3A0xa72eebeedb6c8a24!2sSattarkhan%20Doctors%20Building!5e0!3m2!1sen!2s!4v1748789679060!5m2!1sen!2s"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+
+        <div>
+          <h2>کلینیک چیتگر</h2>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d680.7430661596723!2d51.23205677428243!3d35.74642970173313!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1748789939453!5m2!1sen!2s"
+            width="600"
+            height="450"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </div>
+
+      <h4>صبا نوریانی 1404. تمامی حقوق محفوظ است</h4>
+      <h5>
+        طراحی و توسعه توسط
+        <a
+          href="https://t.me/DevoraLabs"
+          style="color: #2e63c6da; text-decoration: none"
+          target="_blank"
+          >Devora</a
+        >
+      </h5>
+    </footer>
+    <script
+      src="https://cdn.tiny.cloud/1/jyh7hwyj5rob6smkdrksc49veblb4xv6k5xwrzztftb0bq7e/tinymce/7/tinymce.min.js"
+      referrerpolicy="origin"
+    ></script>
+    <script>
+      tinymce.init({
+        selector: "#editor",
+        directionality: "rtl",
+        plugins: "lists link image code table",
+        toolbar:
+          "undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist | image | code",
+        height: 400,
+        content_style:
+          "body { font-family:Vazirmatn,Arial,sans-serif; font-size:16px }",
+        paste_data_images: true,
+        automatic_uploads: true,
+        relative_urls: false,
+        images_upload_url: "/upload-image",
+
+        image_dimensions: false, // hide width/height inputs
+        image_class_list: [{ title: "Responsive", value: "img-default" }],
+
+        // Optional: You can allow users to resize but start with default
+        setup: (editor) => {
+          editor.on("NodeChange", (e) => {
+            if (e.element.nodeName === "IMG") {
+              e.element.style.width = "500px";
+              e.element.style.height = "auto";
+            }
+          });
+        },
+      });
+    </script>
+  </body>
+</html>

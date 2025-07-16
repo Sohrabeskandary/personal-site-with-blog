@@ -4,8 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/styles/style.css" />
-        <link rel="icon" href="/images/favicon.png" />
-
+    <link rel="icon" href="/images/favicon.png" />
 
     <title>صبا نوریانی، کاردرمانگر</title>
   </head>
@@ -26,16 +25,7 @@
     </header>
     <section class="container">
       <h2><%= post.title %></h2>
-      <div>
-        <img src="<%= post.image %>" alt="<%= post.banner %>" />
-        <p> <%- post.content.split('\n').map(line => {
-    if (line.startsWith('###')) {
-      return `<h3>${line.replace(/^###\s*/, '')}</h3>`;
-    } else {
-      return `<p>${line}</p>`;
-    }
-  }).join('') %></p>
-      </div>
+      <div><%- post.content %></div>
 
       <a href="/blog">← بازگشت به بلاگ</a>
     </section>

@@ -310,6 +310,14 @@ iframe {
   height: 20vw;
 }
 
+.insert-new-post {
+  width: 40px;
+}
+
+.insert-new-post:hover {
+  transform: scale(1.05);
+}
+
 .social {
   margin: 2vh 0;
   display: flex;
