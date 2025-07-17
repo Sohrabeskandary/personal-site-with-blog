@@ -1,265 +1,189 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/styles/style.css" />
-    <link rel="icon" href="/images/favicon.png" />
+<%- include("partials/header.ejs") %>
 
-    <title>صبا نوریانی، کاردرمانگر</title>
-  </head>
-  <body>
-    <!-- Header -->
-    <header>
-      <div class="header">
-        <h1>صبا نوریانی</h1>
-        <nav>
-          <a href="/">خانه</a>
-          <a href="#about">درباره من</a>
-          <a href="#services">خدمات</a>
-          <a href="#schedule">برنامه حضور</a>
-          <a href="/blog">وبلاگ</a>
-          <a href="tel: +989123334455" class="book-nav">☎️ رزرو نوبت</a>
-        </nav>
-      </div>
-    </header>
+<!-- Hero Section -->
+<section class="sub-header">
+  <h2>سلامتی شما اولویت ماست</h2>
+  <p>در مسیر درمان لب‌هایی که خنده را از یاد برده‌اند</p>
+</section>
 
-    <!-- Hero Section -->
-    <section class="sub-header">
-      <h2>سلامتی شما اولویت ماست</h2>
-      <p>در مسیر درمان لب‌هایی که خنده را از یاد برده‌اند</p>
-    </section>
+<!-- About Section with Profile Photo -->
+<section id="about" class="about">
+  <img src="/images/saba-profile.webp" alt="Saba Noriani" />
+  <div>
+    <h3>صبا نوریانی</h3>
+    <p>
+      کاردرمانگر لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
+      استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و
+      سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای
+      متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه
+      درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد،
+    </p>
+  </div>
+</section>
 
-    <!-- About Section with Profile Photo -->
-    <section id="about" class="about">
-      <img src="/images/saba-profile.webp" alt="Saba Noriani" />
+<!-- Services Section -->
+<section id="services" class="services">
+  <h3>خدمات</h3>
+  <div class="services-grid">
+    <a href="">
+      <img src="/images/modakhelat-hesi.jpg" alt="modakhelat-hesi" />
+      <h4>مداخلات حسی</h4>
+    </a>
+    <a href="">
+      <img src="/images/tamrinat-edraki.webp" alt="modakhelat-hesi" />
+      <h4>تمرینات ادراکی حرکتی</h4>
+    </a>
+    <a href="">
+      <img src="/images/dark-room.jpg" alt="modakhelat-hesi" />
+      <h4>اتاق تاریک</h4>
+    </a>
+    <a href="">
+      <img src="/images/Group-psychotherapy.jpeg" alt="modakhelat-hesi" />
+      <h4>گروه درمانی</h4>
+    </a>
+    <a href="">
+      <img src="/images/assessment.jpg" alt="modakhelat-hesi" />
+      <h4>ارزیابی</h4>
+    </a>
+    <a href="">
+      <img src="/images/CRT.jpg" alt="modakhelat-hesi" />
+      <h4>توانبخشی شناختی</h4>
+    </a>
+    <a href="">
+      <img src="/images/preschool-educations.jpeg" alt="modakhelat-hesi" />
+      <h4>آموزش‌های پیش از مدرسه</h4>
+    </a>
+    <a href="">
+      <img src="/images/learning-disorder.jpg" alt="modakhelat-hesi" />
+      <h4>اختلال یادگیری</h4>
+    </a>
+  </div>
+  <div class="scroll-fade"></div>
+</section>
+
+<!-- Weekly Schedule Table -->
+<section id="schedule" class="schedule">
+  <h2>برنامه حضور</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>روز</th>
+        <th>ساعت</th>
+        <th>کلینیک</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>یکشنبه و سه شنبه</td>
+        <td>18:30–10:30</td>
+        <td>چیتگر</td>
+      </tr>
+      <tr>
+        <td>دوشنبه و چهارشنبه</td>
+        <td>18:30–10:30</td>
+        <td>ستارخان</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Quick Info Section: Locations & Hours -->
+<section class="clinic-address">
+  <h3>موقعیت مکانی کلینیک‌ها</h3>
+  <div>
+    <div>
       <div>
-        <h3>صبا نوریانی</h3>
-        <p>
-          کاردرمانگر لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ،
-          و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله
-          در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز،
-          و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی
-          در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می
-          طلبد،
-        </p>
+        <h4>کلینیک چیتگر</h4>
+        <p>📍 آدرس: چیتگر- شهرک گلستان- بلوار امیرکبیر- پلاک 189</p>
+        <p>📞 تلفن: 021-222-2222</p>
       </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="services">
-      <h3>خدمات</h3>
-      <div class="services-grid">
-        <div>
-          <img src="/images/modakhelat-hesi.jpg" alt="modakhelat-hesi" />
-          <h4>مداخلات حسی</h4>
-        </div>
-        <div>
-          <img src="/images/tamrinat-edraki.webp" alt="modakhelat-hesi" />
-          <h4>تمرینات ادراکی حرکتی</h4>
-        </div>
-        <div>
-          <img src="/images/dark-room.jpg" alt="modakhelat-hesi" />
-          <h4>اتاق تاریک</h4>
-        </div>
-        <div>
-          <img src="/images/Group-psychotherapy.jpeg" alt="modakhelat-hesi" />
-          <h4>گروه درمانی</h4>
-        </div>
-        <div>
-          <img src="/images/assessment.jpg" alt="modakhelat-hesi" />
-          <h4>ارزیابی</h4>
-        </div>
-        <div>
-          <img src="/images/CRT.jpg" alt="modakhelat-hesi" />
-          <h4>توانبخشی شناختی</h4>
-        </div>
-        <div>
-          <img src="/images/preschool-educations.jpeg" alt="modakhelat-hesi" />
-          <h4>آموزش‌های پیش از مدرسه</h4>
-        </div>
-        <div>
-          <img src="/images/learning-disorder.jpg" alt="modakhelat-hesi" />
-          <h4>اختلال یادگیری</h4>
-        </div>
-      </div>
-      <div class="scroll-fade"></div>
-    </section>
-
-    <!-- Weekly Schedule Table -->
-    <section id="schedule" class="schedule">
-      <h2>برنامه حضور</h2>
-
-      <table>
-        <thead>
-          <tr>
-            <th>روز</th>
-            <th>ساعت</th>
-            <th>کلینیک</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>یکشنبه و سه شنبه</td>
-            <td>18:30–10:30</td>
-            <td>چیتگر</td>
-          </tr>
-          <tr>
-            <td>دوشنبه و چهارشنبه</td>
-            <td>18:30–10:30</td>
-            <td>ستارخان</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- Quick Info Section: Locations & Hours -->
-    <section class="clinic-address">
-      <h3>موقعیت مکانی کلینیک‌ها</h3>
       <div>
-        <div>
-          <div>
-            <h4>کلینیک چیتگر</h4>
-            <p>📍 آدرس: چیتگر- شهرک گلستان- بلوار امیرکبیر- پلاک 189</p>
-            <p>📞 تلفن: 021-222-2222</p>
-          </div>
-          <div>
-            <a
-              href="https://maps.app.goo.gl/ZALFEBPZrw5wVDgj7?g_st=atm"
-              target="_blank"
-              ><img
-                src="/images/location.png"
-                alt="location-icon"
-                class="icon-img"
-            /></a>
-          </div>
-        </div>
-        <div>
-          <div>
-            <h4>کلینیک ستارخان</h4>
-            <p>
-              📍 آدرس: ستارخان- خیابان شادمهر، کوچه فرحزاد- ساختمان پزشکان
-              ستارخان
-            </p>
-            <p>📞 تلفن: 021-222-2222</p>
-          </div>
-          <div>
-            <div>
-              <a
-                href="https://maps.app.goo.gl/D5QXHMdSXYA4nuPr9"
-                target="_blank"
-                ><img
-                  src="/images/location.png"
-                  alt="location-icon"
-                  class="icon-img"
-              /></a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        style="
-          display: flex;
-          flex-direction: row;
-          gap: 25px;
-          margin-bottom: 2vh;
-        "
-      >
         <a
-          href="https://t.me/sabanouriani"
-          class="book"
-          style="background-color: rgb(240, 247, 247); color: rgb(55 65 81)"
-        >
-          <div style="display: flex; flex-direction: row; gap: 0.3rem">
-            <img
-              src="/images/telegram.png"
-              alt="telegram"
-              style="width: 1.8rem; object-fit: cover"
-            />
-            <h4>رزرو نوبت از تلگرام</h4>
-          </div>
-        </a>
-        <a href="tel:+1234567890" class="book">
-          <div style="display: flex; flex-direction: row; gap: 0.3rem">
-            <img
-              src="/images/phone.png"
-              alt="telegram"
-              style="width: 1.8rem; object-fit: cover"
-            />
-            <h4>رزرو نوبت با تماس</h4>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <section class="blog-posts">
-      <h3>آخرین مطالب وبلاگ</h3>
-
-      <div class="latest-posts">
-        <% latestPosts.forEach(post => { %>
-        <div class="post-snippet">
-          <a href="/blog/<%= post.id %>">
-            <img src="<%= post.image %>" alt="<%= post.title %>" />
-            <h4><%= post.title %></h4>
-            <p><%= post.excerpt %></p>
-          </a>
-        </div>
-        <% }) %>
-      </div>
-      <a href="/blog">مشاهده همه مطالب</a>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-      <div>
-        <h2>راه‌های ارتباطی</h2>
-        <div class="social">
-          <a href="#instagram"
-            ><img src="/images/instagram.svg" alt="instagram logo"
-          /></a>
-          <a href="#whatsapp"
-            ><img src="/images/whatsapp.svg" alt="whatsapp logo"
-          /></a>
-          <a href="#telegram"
-            ><img src="/images/telegram.svg" alt="telegram logo"
-          /></a>
-        </div>
-      </div>
-      <!-- <h2>آدرس کلینیک‌ها روی نقشه</h2> -->
-      <div class="map-container">
-        <div>
-          <h2>کلینیک ستارخان</h2>
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3852.4175034683785!2d51.367969956762444!3d35.714311826947316!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3f8e00c9fba86b59%3A0xa72eebeedb6c8a24!2sSattarkhan%20Doctors%20Building!5e0!3m2!1sen!2s!4v1748789679060!5m2!1sen!2s"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
-
-        <div>
-          <h2>کلینیک چیتگر</h2>
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d680.7430661596723!2d51.23205677428243!3d35.74642970173313!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1748789939453!5m2!1sen!2s"
-            width="600"
-            height="450"
-            allowfullscreen=""
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
-        </div>
-      </div>
-
-      <h4>صبا نوریانی 1404. تمامی حقوق محفوظ است</h4>
-      <h5>
-        طراحی و توسعه توسط
-        <a
-          href="https://t.me/DevoraLabs"
-          style="color: #2e63c6da; text-decoration: none"
+          href="https://maps.app.goo.gl/ZALFEBPZrw5wVDgj7?g_st=atm"
           target="_blank"
-          >Devora</a
-        >
-      </h5>
-    </footer>
-  </body>
-</html>
+          ><img src="/images/location.png" alt="location-icon" class="icon-img"
+        /></a>
+      </div>
+    </div>
+    <div>
+      <div>
+        <h4>کلینیک ستارخان</h4>
+        <p>
+          📍 آدرس: ستارخان- خیابان شادمهر، کوچه فرحزاد- ساختمان پزشکان ستارخان
+        </p>
+        <p>📞 تلفن: 021-222-2222</p>
+      </div>
+      <div>
+        <div>
+          <a href="https://maps.app.goo.gl/D5QXHMdSXYA4nuPr9" target="_blank"
+            ><img
+              src="/images/location.png"
+              alt="location-icon"
+              class="icon-img"
+          /></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    style="display: flex; flex-direction: row; gap: 25px; margin-bottom: 2vh"
+  >
+    <a
+      href="https://t.me/sabanouriani"
+      class="book"
+      style="background-color: rgb(240, 247, 247); color: rgb(55 65 81)"
+    >
+      <div style="display: flex; flex-direction: row; gap: 0.3rem">
+        <img
+          src="/images/telegram.png"
+          alt="telegram"
+          style="width: 1.8rem; object-fit: cover"
+        />
+        <h4>رزرو نوبت از تلگرام</h4>
+      </div>
+    </a>
+    <a href="tel:+1234567890" class="book">
+      <div style="display: flex; flex-direction: row; gap: 0.3rem">
+        <img
+          src="/images/phone.png"
+          alt="telegram"
+          style="width: 1.8rem; object-fit: cover"
+        />
+        <h4>رزرو نوبت با تماس</h4>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="blog-posts">
+  <h3>آخرین مطالب وبلاگ</h3>
+
+  <div class="latest-posts">
+    <% latestPosts.forEach(post => { %>
+    <div class="post-snippet">
+      <a href="/blog/<%= post.id %>">
+        <img src="<%= post.image %>" alt="<%= post.title %>" />
+        <h4><%= post.title %></h4>
+        <p><%= post.excerpt %></p>
+      </a>
+    </div>
+    <% }) %>
+  </div>
+  <a href="/blog">مشاهده همه مطالب</a>
+</section>
+
+<a
+  href="tel: +989123334455"
+  class="book-buttom"
+  id="book-buttom"
+  style="
+    text-decoration: none;
+    font-size: 2rem !important;
+    text-align: center;
+    color: white;
+  "
+  >☎️ رزرو نوبت</a
+>
+
+<%- include("partials/footer.ejs") %>

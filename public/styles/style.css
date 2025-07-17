@@ -65,6 +65,10 @@ body {
     0 2px 4px 2px rgba(128, 128, 128, 0.1);
 }
 
+#book-buttom {
+  display: none;
+}
+
 .header > nav {
   padding-bottom: 1vh;
   margin-top: 1vh;
@@ -587,9 +591,8 @@ html {
   row-gap: 20px;
 }
 
-.services-grid > div {
+.services-grid > a {
   width: 18vw;
-
   direction: rtl;
   display: flex;
   position: relative;
@@ -599,15 +602,22 @@ html {
   overflow: hidden;
   border: 0;
   align-self: center;
+  text-decoration: none;
+  color: #374151;
+  transition: transform 0.2s ease-in-out;
 }
 
-.services-grid > div > img {
+.services-grid > a:hover {
+  transform: scale(1.05);
+}
+
+.services-grid > a > img {
   width: 100%;
   height: 16vw;
   object-fit: cover;
 }
 
-.services-grid > div > h4 {
+.services-grid > a > h4 {
   padding: 10px;
   font-size: 1.3rem;
   text-align: center;
@@ -666,7 +676,7 @@ html {
     gap: 10px;
   }
 
-  .services > div > div > p {
+  .services > div > a > p {
     font-size: 1rem;
     text-align: justify;
   }
@@ -705,6 +715,23 @@ html {
 }
 
 @media (max-width: 750px) {
+  .book-buttom {
+    position: fixed;
+    direction: rtl;
+    width: 100%;
+    height: 8vh;
+    padding: 1vh 0 1vh 0;
+    bottom: 0;
+    z-index: 1000;
+    background-color: var(--button);
+    color: white;
+    border-radius: 10px 10px 0 0;
+    padding: 5px;
+    transition: background-color 0.2s ease-in-out;
+    box-shadow: 0 4px 6px 1px rgba(128, 128, 128, 0.1),
+      0 2px 4px 2px rgba(128, 128, 128, 0.1);
+  }
+
   .form > input {
     width: 80vw;
   }
@@ -801,17 +828,17 @@ html {
     scroll-snap-type: x mandatory;
   }
 
-  .services-grid > div {
+  .services-grid > a {
     min-width: 60%;
     scroll-snap-align: start;
     flex-shrink: 0;
   }
 
-  .services-grid > div > img {
+  .services-grid > a > img {
     height: 12vh;
   }
 
-  .services-grid > div > h4 {
+  .services-grid > a > h4 {
     font-size: 1.2rem;
   }
 
@@ -854,6 +881,10 @@ html {
   .post-snippet > a > img {
     opacity: 100%;
     height: 60vw;
+  }
+
+  #book-buttom {
+    display: inline;
   }
 
   .blog-container {
@@ -910,5 +941,13 @@ html {
 
   .social > a > img {
     height: 15vw;
+  }
+
+  footer {
+    padding-bottom: 10vh;
+  }
+
+  #book {
+    display: none;
   }
 }

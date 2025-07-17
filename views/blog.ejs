@@ -1,95 +1,66 @@
-<!DOCTYPE html>
-<html lang="fa">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/styles/style.css" />
-    <link rel="icon" href="/images/favicon.png" />
-    <title>صبا نوریانی، کاردرمانگر</title>
-  </head>
-  <body>
-    <!-- Header -->
-    <header>
-      <div class="header">
-        <h1>صبا نوریانی</h1>
-        <nav>
-          <a href="/">خانه</a>
-          <a href="/#about">درباره من</a>
-          <a href="/#schedule">برنامه حضور</a>
-          <a href="/#services">خدمات</a>
-          <a href="/blog" class="active">وبلاگ</a>
-          <a href="tel: +989123334455" class="book-nav">☎️رزرو نوبت</a>
-        </nav>
-      </div>
-    </header>
+<%- include("partials/header.ejs") %>
 
-    <section class="container">
-      <h2>وبلاگ</h2>
-      <% if (isAdmin) { %>
-      <a href="/new-post" style="align-self: center">
-        <img
-          src="/images/insert.png"
-          alt="Add new post"
-          class="insert-new-post"
-        />
-      </a>
-      <% } %>
+<section class="container">
+  <h2>وبلاگ</h2>
+  <% if (isAdmin) { %>
+  <a href="/new-post" style="align-self: center">
+    <img src="/images/insert.png" alt="Add new post" class="insert-new-post" />
+  </a>
+  <% } %>
 
-      <div class="blog-list">
-        <% if (posts && posts.length) { %> <% posts.forEach(post => { %> <% if
-        (isAdmin) { %>
-        <!-- TODO: hook these to edit/delete routes -->
-        <div style="display: flex; flex-direction: row; gap: 10px">
-          <form method="get" action="/edit-post/<%= post.id %>">
-            <button
-              style="
-                background-color: transparent;
-                border-radius: 15%;
-                cursor: pointer;
-              "
-            >
-              <img src="/images/edit.png" alt="" class="insert-new-post" />
-            </button>
-          </form>
-          <form
-            method="post"
-            action="/delete-post/<%= post.id %>"
-            onsubmit="return confirm('Are you sure you want to delete this post?');"
-          >
-            <button
-              onclick="return confirm('آیا مطمئن هستید که می‌خواهید این پست را حذف کنید؟')"
-              style="
-                background-color: transparent;
-                border-radius: 15%;
-                cursor: pointer;
-              "
-            >
-              <img src="/images/delete.png" alt="" class="insert-new-post" />
-            </button>
-          </form>
-        </div>
-
-        <% } %>
-
-        <a
-          href="/blog/<%= post.id %>"
-          class="post-preview"
-          style="background-color: rgb(239, 246, 255)"
+  <div class="blog-list">
+    <% if (posts && posts.length) { %> <% posts.forEach(post => { %> <% if
+    (isAdmin) { %>
+    <!-- TODO: hook these to edit/delete routes -->
+    <div style="display: flex; flex-direction: row; gap: 10px">
+      <form method="get" action="/edit-post/<%= post.id %>">
+        <button
+          style="
+            background-color: transparent;
+            border-radius: 15%;
+            cursor: pointer;
+          "
         >
-          <% if (post.image) { %>
-          <img src="<%= post.image %>" alt="Blog Image" />
-          <% } %>
-          <div class="blog-text">
-            <h3><%= post.title %></h3>
-            <p><%- (post.summary || '').replace(/\\n/g, '<br />') %></p>
-          </div>
-        </a>
-        <% }) %> <% } else { %>
-        <p>هیچ مطلبی یافت نشد.</p>
-        <% } %>
-      </div>
-    </section>
+          <img src="/images/edit.png" alt="" class="insert-new-post" />
+        </button>
+      </form>
+      <form
+        method="post"
+        action="/delete-post/<%= post.id %>"
+        onsubmit="return confirm('Are you sure you want to delete this post?');"
+      >
+        <button
+          onclick="return confirm('آیا مطمئن هستید که می‌خواهید این پست را حذف کنید؟')"
+          style="
+            background-color: transparent;
+            border-radius: 15%;
+            cursor: pointer;
+          "
+        >
+          <img src="/images/delete.png" alt="" class="insert-new-post" />
+        </button>
+      </form>
+    </div>
 
-    <footer>صبا نوریانی 1404. تمامی حقوق محفوظ است</footer>
-  </body>
-</html>
+    <% } %>
+
+    <a
+      href="/blog/<%= post.id %>"
+      class="post-preview"
+      style="background-color: rgb(239, 246, 255)"
+    >
+      <% if (post.image) { %>
+      <img src="<%= post.image %>" alt="Blog Image" />
+      <% } %>
+      <div class="blog-text">
+        <h3><%= post.title %></h3>
+        <p><%- (post.summary || '').replace(/\\n/g, '<br />') %></p>
+      </div>
+    </a>
+    <% }) %> <% } else { %>
+    <p>هیچ مطلبی یافت نشد.</p>
+    <% } %>
+  </div>
+</section>
+
+<%- include("partials/footer.ejs") %>
